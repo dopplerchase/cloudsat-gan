@@ -175,7 +175,9 @@ def train_cs_modis_cgan(
     print("Creating models...")    
     (gen, disc, gan, opt_disc, opt_gan) = create_models(
         scene_size, modis_var_dim, noise_dim, lr_disc, lr_gan)
-
+    #plot base image 
+    plot_progess_images(gen,0)
+    #
     if epoch > 1:
         print("Loading weights...")
         load_model_state(gen, disc, gan, model_name, epoch-1)
@@ -245,7 +247,9 @@ def train_cs_modis_cgan(
         if (e % save_every == 0):
             print("Saving weights...")
             save_model_state(gen, disc, gan, model_name, e)
+            #plot image to show learning progress
             plot_progess_images(gen,e)
+            #
 
     return (gan, gen, disc)
 
