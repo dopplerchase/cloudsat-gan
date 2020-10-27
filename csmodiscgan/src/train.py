@@ -14,6 +14,7 @@ import data_utils
 def plot_progess_images(gen,e):
 
   import xarray as xr 
+  import matplotlib.pyplot as plt
 
   ds = xr.open_dataset('/content/cloudsat-gan/csmodiscgan/data/sample_batch.nc')
 
@@ -280,11 +281,11 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None):
         "save_every": 1
     }
 
-    train_cs_modis_cgan(num_epochs=5, epoch=1, batch_size=32,
+    train_cs_modis_cgan(num_epochs=2, epoch=1, batch_size=32,
         **train_kwargs)
-    train_cs_modis_cgan(num_epochs=10, epoch=6, batch_size=64,
-        **train_kwargs)
-    train_cs_modis_cgan(num_epochs=10, epoch=16, batch_size=128,
-        **train_kwargs)
-    train_cs_modis_cgan(num_epochs=20, epoch=26, batch_size=256,
-        **train_kwargs)
+#     train_cs_modis_cgan(num_epochs=10, epoch=6, batch_size=64,
+#         **train_kwargs)
+#     train_cs_modis_cgan(num_epochs=10, epoch=16, batch_size=128,
+#         **train_kwargs)
+#     train_cs_modis_cgan(num_epochs=20, epoch=26, batch_size=256,
+#         **train_kwargs)
