@@ -8,6 +8,83 @@ import numpy as np
 import models
 import data_utils
 
+################################
+#New code added by Randy Chase 
+################################
+def plot_progess_images(gen,e):
+
+  import xarray as xr 
+
+  ds = xr.open_dataset('/content/cloudsat-gan/csmodiscgan/data/sample_batch.nc')
+
+  modis_vars_b = ds['modis_vars'].values
+  modis_mask_b = ds['modis_mask'].values
+  noise = ds['noise'].values
+  cs_scenes_b = ds['cs_scenes'].values
+
+  fake_cs = gen.predict([noise, modis_vars_b, modis_mask_b])
+
+
+  fig,axes = plt.subplots(2,5,figsize=(12,5))
+
+  ax = axes[0,0]
+  ax.imshow(fake_cs[0,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+  ax.set_ylabel('Generated Image')
+  ax = axes[1,0]
+  ax.imshow(cs_scenes_b[0,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+  ax.set_ylabel('Truth')
+
+  ax = axes[0,1]
+  ax.imshow(fake_cs[17,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+  ax = axes[1,1]
+  ax.imshow(cs_scenes_b[17,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+
+
+  ax = axes[0,2]
+  ax.imshow(fake_cs[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+  ax = axes[1,2]
+  ax.imshow(cs_scenes_b[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+
+
+  ax = axes[0,3]
+  ax.imshow(fake_cs[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+  ax = axes[1,3]
+  ax.imshow(cs_scenes_b[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+
+
+  ax = axes[0,4]
+  ax.imshow(fake_cs[31,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+  ax = axes[1,4]
+  ax.imshow(cs_scenes_b[31,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.set_xticks([])
+  ax.set_yticks([])
+
+  plt.tight_layout()
+
+  plt.savefig('/content/CURRENT_GENERATOR' + str(e) + '.png',dpi=300)
+  plt.close()
+
+  return 
+################################
+
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -168,6 +245,7 @@ def train_cs_modis_cgan(
         if (e % save_every == 0):
             print("Saving weights...")
             save_model_state(gen, disc, gan, model_name, e)
+            plot_progess_images(gen,e)
 
     return (gan, gen, disc)
 
