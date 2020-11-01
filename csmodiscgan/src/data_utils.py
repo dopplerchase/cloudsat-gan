@@ -9,6 +9,7 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
     shuffle=True, shuffle_seed=None,GMIGAN=False):
 
     if GMIGAN:
+        import xarray as xr 
         ds =xr.open_zarr(fn)
         cs_scenes = ds.z_scene.values
         #note, these are GMI vars, but keeping the modis_vars name to keep the code working.
