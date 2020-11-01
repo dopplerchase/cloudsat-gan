@@ -6,29 +6,39 @@ import netCDF4
 
 
 def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
-    shuffle=True, shuffle_seed=None):
+    shuffle=True, shuffle_seed=None,GMIGAN=False):
 
-    with netCDF4.Dataset(fn, 'r') as ds:
-        if n is None:
-            n = ds["scenes"].shape[0]
-        cs_scenes = np.array(ds["scenes"][:n,:,:])
-        cs_scenes = cs_scenes.reshape(cs_scenes.shape+(1,))
-        if right_handed:
-            cs_scenes = np.rot90(cs_scenes, axes=(2,1))
-        # rescale from (0,1) to (-1,1)
-        cs_scenes *= 2
-        cs_scenes -= 1
-        modis_vars = np.zeros((n,)+ds["tau_c"].shape[1:]+(4,), 
-            dtype=np.float32)
-        modis_vars[:,:,0] = ds["tau_c"][:n,:]
-        modis_vars[:,:,1] = ds["p_top"][:n,:]
-        modis_vars[:,:,2] = ds["r_e"][:n,:]
-        modis_vars[:,:,3] = ds["twp"][:n,:]
-        modis_mask = np.zeros((n,)+ds["tau_c"].shape[1:]+(1,), 
-            dtype=np.float32)
-        modis_mask[:,:,0] = ds["modis_mask"][:n,:]
+    if GMIGAN:
+        ds =xr.open_zarr(fn)
+        cs_scenes = ds.z_scene.values
+        #note, these are GMI vars, but keeping the modis_vars name to keep the code working.
+        modis_vars = ds.gmi_scene.values
+        #rotate it to match Leinonen's setup
+        cs_scenes = np.rot90(cs_scenes, axes=(2,1))
+        modis_mask = np.ones(gmi_scenes.shape)
+     
+    else:
+        with netCDF4.Dataset(fn, 'r') as ds:
+            if n is None:
+                n = ds["scenes"].shape[0]
+            cs_scenes = np.array(ds["scenes"][:n,:,:])
+            cs_scenes = cs_scenes.reshape(cs_scenes.shape+(1,))
+            if right_handed:
+                cs_scenes = np.rot90(cs_scenes, axes=(2,1))
+            # rescale from (0,1) to (-1,1)
+            cs_scenes *= 2
+            cs_scenes -= 1
+            modis_vars = np.zeros((n,)+ds["tau_c"].shape[1:]+(4,), 
+                dtype=np.float32)
+            modis_vars[:,:,0] = ds["tau_c"][:n,:]
+            modis_vars[:,:,1] = ds["p_top"][:n,:]
+            modis_vars[:,:,2] = ds["r_e"][:n,:]
+            modis_vars[:,:,3] = ds["twp"][:n,:]
+            modis_mask = np.zeros((n,)+ds["tau_c"].shape[1:]+(1,), 
+                dtype=np.float32)
+            modis_mask[:,:,0] = ds["modis_mask"][:n,:]
 
-    num_scenes = cs_scenes.shape[0]
+        num_scenes = cs_scenes.shape[0]
     if shuffle:
         prng = np.random.RandomState(shuffle_seed)
         ind = np.arange(num_scenes)
