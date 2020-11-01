@@ -256,7 +256,7 @@ def train_cs_modis_cgan(
     return (gan, gen, disc)
 
 
-def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=False):
+def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True):
     print("Loading data...")
     scenes = data_utils.load_cloudsat_scenes(scenes_fn,
         shuffle_seed=214101,GMIGAN=GMIGAN)
