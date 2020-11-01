@@ -161,13 +161,14 @@ def train_cs_modis_cgan(
         save_every=5,
         lr_disc=0.0001,
         lr_gan=0.0002,
+        GMIGAN=False
     ):    
 
     # Load and rescale data
     if cs_scenes is None:
         print("Loading data...")
         (cs_scenes, modis_vars, modis_mask) = \
-            data_utils.load_cloudsat_scenes(scenes_fn)
+            data_utils.load_cloudsat_scenes(scenes_fn,GMIGAN=GMIGAN)
     num_scenes = cs_scenes.shape[0]
     batches_per_epoch = num_scenes // batch_size
     scene_size = cs_scenes.shape[1]
