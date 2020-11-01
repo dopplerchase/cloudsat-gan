@@ -16,7 +16,7 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
         modis_vars = ds.gmi_scene.values
         #rotate it to match Leinonen's setup
         cs_scenes = np.rot90(cs_scenes, axes=(2,1))
-        modis_mask = np.ones(gmi_scenes.shape)
+        modis_mask = np.ones(modis_vars.shape)
      
     else:
         with netCDF4.Dataset(fn, 'r') as ds:
