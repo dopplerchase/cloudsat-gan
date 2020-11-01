@@ -256,10 +256,10 @@ def train_cs_modis_cgan(
     return (gan, gen, disc)
 
 
-def train_cs_modis_cgan_full(scenes_fn, run_name=None):
+def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=False):
     print("Loading data...")
     scenes = data_utils.load_cloudsat_scenes(scenes_fn,
-        shuffle_seed=214101)
+        shuffle_seed=214101,GMIGAN=GMIGAN)
     (cs_scenes, modis_vars, modis_mask) = scenes["train"]
     
     model_name = "cs_modis_cgan"
@@ -282,10 +282,10 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None):
         "save_every": 1
     }
 
-    train_cs_modis_cgan(num_epochs=5, epoch=1, batch_size=32,
+    train_cs_modis_cgan(num_epochs=2, epoch=1, batch_size=32,
         **train_kwargs)
-    train_cs_modis_cgan(num_epochs=10, epoch=6, batch_size=64,
-        **train_kwargs)
+#     train_cs_modis_cgan(num_epochs=10, epoch=6, batch_size=64,
+#         **train_kwargs)
 #     train_cs_modis_cgan(num_epochs=10, epoch=16, batch_size=128,
 #         **train_kwargs)
 #     train_cs_modis_cgan(num_epochs=20, epoch=26, batch_size=256,
