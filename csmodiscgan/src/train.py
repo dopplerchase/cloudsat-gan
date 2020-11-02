@@ -11,12 +11,16 @@ import data_utils
 ################################
 #New code added by Randy Chase 
 ################################
-def plot_progess_images(gen,e):
+def plot_progess_images(gen,e,GMIGAN=True):
 
   import xarray as xr 
   import matplotlib.pyplot as plt
-
-  ds = xr.open_dataset('/content/cloudsat-gan/csmodiscgan/data/sample_batch.nc')
+  
+  if GMIGAN:
+    ds = xr.open_dataset('/content/cloudsat-gan/csmodiscgan/data/sample_batch_GAN.nc')
+  else:
+    ds = xr.open_dataset('/content/cloudsat-gan/csmodiscgan/data/sample_batch.nc')
+ 
 
   modis_vars_b = ds['modis_vars'].values
   modis_mask_b = ds['modis_mask'].values
