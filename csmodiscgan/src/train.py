@@ -336,7 +336,7 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True):
         "save_every": 1
     }
 
-    train_cs_modis_cgan(num_epochs=5, epoch=1, batch_size=32,
+    train_cs_modis_cgan(num_epochs=10, epoch=1, batch_size=32,
         **train_kwargs)
 #     train_cs_modis_cgan(num_epochs=10, epoch=6, batch_size=64,
 #         **train_kwargs)
