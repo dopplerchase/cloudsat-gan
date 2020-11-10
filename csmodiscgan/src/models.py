@@ -19,24 +19,28 @@ def cs_generator(scene_size, modis_var_dim, noise_dim):
     gen_input = Concatenate()(inputs_flat)
 
     x = Dense(f * start_dim * start_dim)(gen_input)
-    x = Activation("relu")(x)
+#     x = Activation("relu")(x)
+    x = LeakyReLU(0.2)(x)
     x = BatchNormalization(momentum=0.8)(x)
 
     x = Reshape(reshape_shape)(x)
 
     x = UpSampling2D(size=(2, 2))(x)
     x = Conv2D(256, (3, 3), padding="same")(x)
-    x = Activation("relu")(x)
+#     x = Activation("relu")(x)
+    x = LeakyReLU(0.2)(x)
     x = BatchNormalization(momentum=0.8)(x)
 
     x = UpSampling2D(size=(2, 2))(x)
     x = Conv2D(128, (3, 3), padding="same")(x)    
-    x = Activation("relu")(x)
+#     x = Activation("relu")(x)
+    x = LeakyReLU(0.2)(x)
     x = BatchNormalization(momentum=0.8)(x)
 
     x = UpSampling2D(size=(2, 2))(x)
     x = Conv2D(64, (3, 3), padding="same")(x)    
-    x = Activation("relu")(x)
+#     x = Activation("relu")(x)
+    x = LeakyReLU(0.2)(x)
     x = BatchNormalization(momentum=0.8)(x)
 
     x = Conv2D(1, (3, 3), padding="same", 
