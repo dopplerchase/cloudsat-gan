@@ -9,15 +9,44 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
     shuffle=True, shuffle_seed=None,GMIGAN=False):
 
     if GMIGAN:
+        
         import xarray as xr 
         ds =xr.open_zarr(fn)
-        cs_scenes = ds.z_scene.values
+        #scale z (following Leinonen et al. 2019)
+        z_scene = np.copy(ds.z_scene.values)
+        z_scaled = np.copy(ds.z_scene.values)
+        z_scaled = 2*(z_scaled+35.)/(55.) - 1
+        z_scaled[z_scene < -35] = -1 
+        z_scaled[z_scene > 20] = 1 
+        del z_scene
+        cs_scenes = np.copy(z_scaled)
+        del z_scaled 
         cs_scenes = cs_scenes.reshape(cs_scenes.shape+(1,))
+
+        #scale GMI 
+        mu_gmi = ds.gmi_scene.mean(axis=(0,1)).compute().values
+        mu_gmi = np.tile(mu_gmi[np.newaxis,:],(64,1))
+        mu_gmi = np.tile(mu_gmi[np.newaxis,:,:],(ds.gmi_scene.shape[0],1,1))
+        sigma_gmi = ds.gmi_scene.std(axis=(0,1)).compute().values
+        sigma_gmi= np.tile(sigma_gmi[np.newaxis,:],(64,1))
+        sigma_gmi = np.tile(sigma_gmi[np.newaxis,:,:],(ds.gmi_scene.shape[0],1,1))
+
+        #scale each channel to have mean 0 and std 1
+        GMI_scaled = (ds.gmi_scene-mu_gmi)/sigma_gmi
+
+
         #note, these are GMI vars, but keeping the modis_vars name to keep the code working.
-        modis_vars = ds.gmi_scene.values
+        #if you want to add more variables, add them to the same modis_vars_param
+        
+        modis_vars = np.copy(GMI_scaled.values)
+        del GMI_scaled
         #rotate it to match Leinonen's setup
         cs_scenes = np.rot90(cs_scenes, axes=(2,1))
         modis_mask = np.ones([cs_scenes.shape[0],cs_scenes.shape[1],1],dtype=np.float32)
+        
+        #close the dataset to save RAM 
+        ds.close()
+        del ds 
      
     else:
         with netCDF4.Dataset(fn, 'r') as ds:
