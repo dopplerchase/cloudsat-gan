@@ -44,31 +44,31 @@ def plot_progess_images(gen,e,GMIGAN=True):
   ax.set_ylabel('Truth')
 
   ax = axes[0,1]
-  ax.imshow(fake_cs[5,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[9,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,1]
-  ax.imshow(cs_scenes_b[5,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[9,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[0,2]
-  ax.imshow(fake_cs[6,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,2]
-  ax.imshow(cs_scenes_b[6,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[0,3]
-  ax.imshow(fake_cs[7,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[21,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,3]
-  ax.imshow(cs_scenes_b[7,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[21,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
@@ -83,12 +83,12 @@ def plot_progess_images(gen,e,GMIGAN=True):
   ax.set_yticks([])
 
   ax = axes[2,0]
-  ax.imshow(fake_cs[11,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Generated Image')
   ax = axes[3,0]
-  ax.imshow(cs_scenes_b[11,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Truth')
@@ -104,11 +104,11 @@ def plot_progess_images(gen,e,GMIGAN=True):
 
 
   ax = axes[2,2]
-  ax.imshow(fake_cs[14,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[1,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[3,2]
-  ax.imshow(cs_scenes_b[14,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[1,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
@@ -134,7 +134,7 @@ def plot_progess_images(gen,e,GMIGAN=True):
 
   plt.tight_layout()
 
-  plt.savefig('/content/CURRENT_GENERATOR' + str(e) + '.png',dpi=300)
+  plt.savefig('/content/gdrive/MyDrive/GMI_CloudSat_GAN/Random_Batch_Images/CURRENT_GENERATOR' + str(e) + '.png',dpi=300)
   plt.close()
 
   return 
@@ -336,11 +336,11 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True):
         "save_every": 1
     }
 
-#     train_cs_modis_cgan(num_epochs=10, epoch=1, batch_size=32,
-#         **train_kwargs)
+    train_cs_modis_cgan(num_epochs=10, epoch=1, batch_size=32,
+        **train_kwargs)
 #     train_cs_modis_cgan(num_epochs=20, epoch=11, batch_size=64,
 #         **train_kwargs)
 #     train_cs_modis_cgan(num_epochs=20, epoch=31, batch_size=128,
 #         **train_kwargs)
-    train_cs_modis_cgan(num_epochs=40, epoch=51, batch_size=256,
-        **train_kwargs)
+#     train_cs_modis_cgan(num_epochs=40, epoch=51, batch_size=256,
+#         **train_kwargs)
