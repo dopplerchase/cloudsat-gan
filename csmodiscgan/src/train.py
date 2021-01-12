@@ -336,11 +336,11 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True):
         "save_every": 1
     }
 
-    train_cs_modis_cgan(num_epochs=10, epoch=1, batch_size=32,
+#     train_cs_modis_cgan(num_epochs=5, epoch=1, batch_size=32,
+#         **train_kwargs)
+    train_cs_modis_cgan(num_epochs=10, epoch=6, batch_size=64,
         **train_kwargs)
-#     train_cs_modis_cgan(num_epochs=20, epoch=11, batch_size=64,
-#         **train_kwargs)
-#     train_cs_modis_cgan(num_epochs=20, epoch=31, batch_size=128,
-#         **train_kwargs)
-#     train_cs_modis_cgan(num_epochs=40, epoch=51, batch_size=256,
-#         **train_kwargs)
+    train_cs_modis_cgan(num_epochs=10, epoch=16, batch_size=128,
+        **train_kwargs)
+    train_cs_modis_cgan(num_epochs=20, epoch=26, batch_size=256,
+        **train_kwargs)
