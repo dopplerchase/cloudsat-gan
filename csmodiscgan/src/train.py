@@ -138,6 +138,17 @@ def plot_progess_images(gen,e,GMIGAN=True):
   plt.close()
 
   return 
+
+def move_weights(e,mvdir='/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/'):
+  import shutil
+  files = ['/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/gen_weights_epoch'+str(e)+'.h5',
+          '/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/disc_weights_epoch'+str(e)+'.h5',
+          '/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/opt_disc_weights_epoch'+str(e)+'.h5',
+          '/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/opt_gan_weights_epoch'+str(e)+'.h5']
+  for f in files:
+      shutil.copy(f, mvdir)
+
+  return 
 ################################
 
 
@@ -304,10 +315,8 @@ def train_cs_modis_cgan(
             print("Saving weights...")
             save_model_state(gen, disc, gan, model_name, e)
             print("Moving weights to gdrive")
-            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/gen_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/gen_weights_epoch'+str(e)+'.h5')
-            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/disc_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/disc_weights_epoch'+str(e)+'.h5')
-            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/opt_disc_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/opt_disc_weights_epoch'+str(e)+'.h5')
-            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/opt_gan_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/opt_gan_weights_epoch'+str(e)+'.h5')
+            #move weights to gdrive
+            move_weights(e)
             #plot image to show learning progress
             plot_progess_images(gen,e)
             #
