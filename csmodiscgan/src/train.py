@@ -303,6 +303,11 @@ def train_cs_modis_cgan(
         if (e % save_every == 0):
             print("Saving weights...")
             save_model_state(gen, disc, gan, model_name, e)
+            print("Moving weights to gdrive")
+            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/gen_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/gen_weights_epoch'+str(e)+'.h5')
+            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/disc_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/disc_weights_epoch'+str(e)+'.h5')
+            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/opt_disc_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/opt_disc_weights_epoch'+str(e)+'.h5')
+            os.rename('/content/cloudsat-gan/csmodiscgan/models/cs_modis_cgan/opt_gan_weights_epoch'+str(e)+'.h5','/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weights/opt_gan_weights_epoch'+str(e)+'.h5')
             #plot image to show learning progress
             plot_progess_images(gen,e)
             #
