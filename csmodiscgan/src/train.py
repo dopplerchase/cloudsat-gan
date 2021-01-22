@@ -33,102 +33,102 @@ def plot_progess_images(gen,e,GMIGAN=True):
   fig,axes = plt.subplots(4,5,figsize=(12,10))
 
   ax = axes[0,0]
-  ax.imshow(fake_cs[3,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[0,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Generated Image')
   ax = axes[1,0]
-  ax.imshow(cs_scenes_b[3,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[0,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Truth')
 
   ax = axes[0,1]
-  ax.imshow(fake_cs[9,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[6,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,1]
-  ax.imshow(cs_scenes_b[9,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[6,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[0,2]
-  ax.imshow(fake_cs[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[7,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,2]
-  ax.imshow(cs_scenes_b[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[7,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[0,3]
-  ax.imshow(fake_cs[21,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[9,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,3]
-  ax.imshow(cs_scenes_b[21,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[9,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[0,4]
-  ax.imshow(fake_cs[8,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,4]
-  ax.imshow(cs_scenes_b[8,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[10,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
   ax = axes[2,0]
-  ax.imshow(fake_cs[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[11,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Generated Image')
   ax = axes[3,0]
-  ax.imshow(cs_scenes_b[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[11,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Truth')
 
   ax = axes[2,1]
-  ax.imshow(fake_cs[12,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[23,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[3,1]
-  ax.imshow(cs_scenes_b[12,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[23,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[2,2]
-  ax.imshow(fake_cs[1,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[3,2]
-  ax.imshow(cs_scenes_b[1,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[2,3]
-  ax.imshow(fake_cs[18,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[28,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[3,3]
-  ax.imshow(cs_scenes_b[18,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[28,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
 
   ax = axes[2,4]
-  ax.imshow(fake_cs[20,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[29,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[3,4]
-  ax.imshow(cs_scenes_b[20,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[29,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
