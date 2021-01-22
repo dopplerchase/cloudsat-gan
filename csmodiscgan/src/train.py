@@ -226,14 +226,15 @@ def train_cs_modis_cgan(
         save_every=5,
         lr_disc=0.0001,
         lr_gan=0.0002,
-        GMIGAN=False
+        GMIGAN=False,
+        skinT=False
     ):    
 
     # Load and rescale data
     if cs_scenes is None:
         print("Loading data...")
         (cs_scenes, modis_vars, modis_mask) = \
-            data_utils.load_cloudsat_scenes(scenes_fn,GMIGAN=GMIGAN)
+            data_utils.load_cloudsat_scenes(scenes_fn,GMIGAN=GMIGAN,skinT=skinT)
     num_scenes = cs_scenes.shape[0]
     batches_per_epoch = num_scenes // batch_size
     scene_size = cs_scenes.shape[1]
@@ -324,10 +325,10 @@ def train_cs_modis_cgan(
     return (gan, gen, disc)
 
 
-def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True):
+def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True,skinT=True):
     print("Loading data...")
     scenes = data_utils.load_cloudsat_scenes(scenes_fn,
-        shuffle_seed=214101,GMIGAN=GMIGAN)
+        shuffle_seed=214101,GMIGAN=GMIGAN,skinT=skinT)
     (cs_scenes, modis_vars, modis_mask) = scenes["train"]
     
     model_name = "cs_modis_cgan"
