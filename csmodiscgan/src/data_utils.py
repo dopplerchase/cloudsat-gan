@@ -34,24 +34,26 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
         #scale each channel to have mean 0 and std 1
         GMI_scaled = (ds.gmi_scene-mu_gmi)/sigma_gmi
         
+        #note, to keep the code working, will rename this varibale to modis_vars. 
+        #if you want to add more variables, add them to the same modis_vars_param
+        
+        #add in the skin temperature to help the GAN understand RTE and low GHz channels
         if skinT:
             mu_surfT = ds.skin_temp_scene.mean().compute().values
             sigma_surfT = ds.skin_temp_scene.std().compute().values
             surfT_scaled = (ds.skin_temp_scene-mu_surfT)/sigma_surfT
             
-#             Need to debug this, right now if there 273 height is below the surface, its -9999.
-#             mu_height_273k = ds.height_273k_scene.mean.compute().values
-#             sigma_height_273k = ds.height_273k_scene.std.compute().values
-#             height_273k_scaled = (ds.height_273k-mu_height_273k)/sigma_height_273k
-            
-        #note, these are GMI vars, but keeping the modis_vars name to keep the code working.
-        #if you want to add more variables, add them to the same modis_vars_param
-        
-        if skinT:
             modis_vars = np.zeros([GMI_scaled.shape[0],GMI_scaled.shape[1],GMI_scaled.shape[2]+1])
             modis_vars[:,:,0:13] = GMI_scaled.values
             modis_vars[:,:,13] = surfT_scaled.values
             del surfT_scaled 
+            
+#             Ideally, the 0deg isotherm height would be important too, since the first model didnt do brightbands well
+#             But we need to debug this, if there 273 height is below the surface its value is -9999.
+#             mu_height_273k = ds.height_273k_scene.mean.compute().values
+#             sigma_height_273k = ds.height_273k_scene.std.compute().values
+#             height_273k_scaled = (ds.height_273k-mu_height_273k)/sigma_height_273k
+            
         else:
             modis_vars = np.copy(GMI_scaled.values)
 
