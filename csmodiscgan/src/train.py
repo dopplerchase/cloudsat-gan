@@ -83,12 +83,12 @@ def plot_progess_images(gen,e,GMIGAN=True):
   ax.set_yticks([])
 
   ax = axes[2,0]
-  ax.imshow(fake_cs[11,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[18,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Generated Image')
   ax = axes[3,0]
-  ax.imshow(cs_scenes_b[11,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[18,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Truth')
