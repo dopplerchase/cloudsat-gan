@@ -6,7 +6,7 @@ import netCDF4
 
 
 def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
-    shuffle=False, shuffle_seed=42,GMIGAN=False,skinT=False):
+    shuffle=False, shuffle_seed=42,GMIGAN=False,skinT=False,fullT=False):
 
     if GMIGAN:
         
