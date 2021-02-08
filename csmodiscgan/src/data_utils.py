@@ -6,11 +6,13 @@ import netCDF4
 
 
 def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
-    shuffle=True, shuffle_seed=None,GMIGAN=False,skinT=False):
+    shuffle=False, shuffle_seed=42,GMIGAN=False,skinT=False):
 
     if GMIGAN:
         
         import xarray as xr 
+        import gc
+
         ds =xr.open_zarr(fn)
         #scale z (following Leinonen et al. 2019)
         z_scene = np.copy(ds.z_scene.values)
@@ -19,46 +21,84 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
         z_scaled[z_scene < -35] = -1 
         z_scaled[z_scene > 20] = 1 
         del z_scene
-        cs_scenes = np.copy(z_scaled)
+        cs_scenes = np.asarray(z_scaled,dtype=np.float16)
         del z_scaled 
         cs_scenes = cs_scenes.reshape(cs_scenes.shape+(1,))
 
-        #scale GMI 
-        mu_gmi = ds.gmi_scene.mean(axis=(0,1)).compute().values
-        mu_gmi = np.tile(mu_gmi[np.newaxis,:],(64,1))
-        mu_gmi = np.tile(mu_gmi[np.newaxis,:,:],(ds.gmi_scene.shape[0],1,1))
-        sigma_gmi = ds.gmi_scene.std(axis=(0,1)).compute().values
-        sigma_gmi= np.tile(sigma_gmi[np.newaxis,:],(64,1))
-        sigma_gmi = np.tile(sigma_gmi[np.newaxis,:,:],(ds.gmi_scene.shape[0],1,1))
+        #for python to clean RAM 
+        gc.collect()
 
-        #scale each channel to have mean 0 and std 1
-        GMI_scaled = (ds.gmi_scene-mu_gmi)/sigma_gmi
-        
-        #note, to keep the code working, will rename this varibale to modis_vars. 
-        #if you want to add more variables, add them to the same modis_vars_param
-        
-        #add in the skin temperature to help the GAN understand RTE and low GHz channels
+        from sklearn.preprocessing import StandardScaler
+
+        #transform gmi Tbs into [n_samples,n_features] to get mean 0 std 1 from sklearn
+        X = ds.gmi_scene.data.reshape([ds.gmi_scene.shape[0]*ds.gmi_scene.shape[1],ds.gmi_scene.shape[2]])
+
+        #init. scaler
+        scaler = StandardScaler()
+        #fit scaler 
+        scaler.fit(X)
+        #transform data 
+        X_trans = scaler.transform(X)
+        #del old unscaled data from memory
+        del X
+        #del scaler 
+        del scaler 
+        #reshape back into inital dim. 
+        X_trans = X_trans.reshape([ds.gmi_scene.shape[0],ds.gmi_scene.shape[1],ds.gmi_scene.shape[2]])
+
+        # #preallocate feature matrix size 
+        if (skinT==False) and (fullT==False):
+            modis_vars = np.zeros([ds.temp_scene.shape[0],ds.temp_scene.shape[1],13],dtype=np.float16)
+        elif (skinT==True) and (fullT==False):
+            modis_vars = np.zeros([ds.temp_scene.shape[0],ds.temp_scene.shape[1],13+1],dtype=np.float16)
+        elif (skinT==True) and (fullT==True):
+            modis_vars = np.zeros([ds.temp_scene.shape[0],ds.temp_scene.shape[1],13+32+1],dtype=np.float16)
+
+        #store in variable matrix 
+        modis_vars[:,:,0:13] = np.asarray(X_trans,dtype=np.float16)
+        end_tracker = 13
+
+        #del redundancy
+        del X_trans
+        #for python to clean RAM 
+        gc.collect()
+
+        if fullT:
+            #transform ECMWF T's into [n_samples,n_features] to get mean 0 std 1 from sklearn
+            X = ds.temp_scene.data.reshape([ds.temp_scene.shape[0]*ds.temp_scene.shape[1],ds.temp_scene.shape[2]])
+
+            #init. scaler
+            scaler = StandardScaler()
+            #fit scaler 
+            scaler.fit(X)
+            #transform data 
+            X_trans = scaler.transform(X)
+            #del old unscaled data from memory
+            del X
+            #del scaler 
+            del scaler 
+            #reshape back into inital dim. 
+            X_trans = X_trans.reshape([ds.temp_scene.shape[0],ds.temp_scene.shape[1],ds.temp_scene.shape[2]])
+            #store in variable matrix 
+            modis_vars[:,:,end_tracker:end_tracker+ds.temp_scene.shape[2]] = np.asarray(X_trans,dtype=np.float16)
+            end_tracker = end_tracker + ds.temp_scene.shape[2]
+            #del redundancy
+            del X_trans
+            #for python to clean RAM 
+            gc.collect()
+
         if skinT:
+            #no need to get fancy with memory for the last 1D variables. 
             mu_surfT = ds.skin_temp_scene.mean().compute().values
             sigma_surfT = ds.skin_temp_scene.std().compute().values
             surfT_scaled = (ds.skin_temp_scene-mu_surfT)/sigma_surfT
+            #fill and delete unused arrays
+            modis_vars[:,:,end_tracker] = np.asarray(surfT_scaled.values,dtype=np.float16)
+            end_tracker = end_tracker + 1
+            del surfT_scaled
+            #for python to clean RAM 
+            gc.collect()
             
-            modis_vars = np.zeros([GMI_scaled.shape[0],GMI_scaled.shape[1],GMI_scaled.shape[2]+1])
-            modis_vars[:,:,0:13] = GMI_scaled.values
-            modis_vars[:,:,13] = surfT_scaled.values
-            del surfT_scaled 
-            
-#             Ideally, the 0deg isotherm height would be important too, since the first model didnt do brightbands well
-#             But we need to debug this, if there 273 height is below the surface its value is -9999.
-#             mu_height_273k = ds.height_273k_scene.mean.compute().values
-#             sigma_height_273k = ds.height_273k_scene.std.compute().values
-#             height_273k_scaled = (ds.height_273k-mu_height_273k)/sigma_height_273k
-            
-        else:
-            modis_vars = np.copy(GMI_scaled.values)
-
-            
-        del GMI_scaled
         #rotate it to match Leinonen's setup
         cs_scenes = np.rot90(cs_scenes, axes=(2,1))
         modis_mask = np.ones([cs_scenes.shape[0],cs_scenes.shape[1],1],dtype=np.float32)
