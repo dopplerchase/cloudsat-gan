@@ -4,6 +4,7 @@ import time
 
 from keras.utils import generic_utils
 from keras.optimizers import Adam
+from keras import backend
 import numpy as np
 import models
 import data_utils
@@ -149,6 +150,10 @@ def move_weights(e,mvdir='/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weigh
       shutil.copy(f, mvdir)
 
   return 
+
+# implementation of wasserstein loss
+def wasserstein_loss(y_true, y_pred):
+	return backend.mean(y_true * y_pred)
 ################################
 
 
