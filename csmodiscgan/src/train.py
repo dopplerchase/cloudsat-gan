@@ -34,12 +34,12 @@ def plot_progess_images(gen,e,GMIGAN=True):
   fig,axes = plt.subplots(4,5,figsize=(12,10))
 
   ax = axes[0,0]
-  ax.imshow(fake_cs[0,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[1,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Generated Image')
   ax = axes[1,0]
-  ax.imshow(cs_scenes_b[0,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[1,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax.set_ylabel('Truth')
@@ -55,11 +55,11 @@ def plot_progess_images(gen,e,GMIGAN=True):
 
 
   ax = axes[0,2]
-  ax.imshow(fake_cs[7,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[12,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[1,2]
-  ax.imshow(cs_scenes_b[7,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[12,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
@@ -105,11 +105,11 @@ def plot_progess_images(gen,e,GMIGAN=True):
 
 
   ax = axes[2,2]
-  ax.imshow(fake_cs[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(fake_cs[21,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
   ax = axes[3,2]
-  ax.imshow(cs_scenes_b[25,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
+  ax.imshow(cs_scenes_b[21,:,:,0],vmin=-1,vmax=1,cmap='Spectral_r')
   ax.set_xticks([])
   ax.set_yticks([])
 
