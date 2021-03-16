@@ -151,9 +151,6 @@ def move_weights(e,mvdir='/content/gdrive/MyDrive/GMI_CloudSat_GAN/trained_weigh
 
   return 
 
-# implementation of wasserstein loss
-def wasserstein_loss(y_true, y_pred):
-	return backend.mean(y_true * y_pred)
 ################################
 
 
@@ -330,7 +327,7 @@ def train_cs_modis_cgan(
     return (gan, gen, disc)
 
 
-def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True,skinT=True,fullT=True):
+def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True,skinT=False,fullT=False):
     print("Loading data...")
     scenes = data_utils.load_cloudsat_scenes(scenes_fn,
         shuffle_seed=214101,GMIGAN=GMIGAN,skinT=skinT,fullT=fullT)
@@ -356,8 +353,8 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True,skinT=True,ful
         "save_every": 1
     }
 
-#     train_cs_modis_cgan(num_epochs=5, epoch=1, batch_size=32,
-#         **train_kwargs)
+    train_cs_modis_cgan(num_epochs=5, epoch=1, batch_size=32,
+        **train_kwargs)
     train_cs_modis_cgan(num_epochs=5, epoch=11, batch_size=64,
         **train_kwargs)
     train_cs_modis_cgan(num_epochs=10, epoch=16, batch_size=128,
