@@ -359,5 +359,7 @@ def train_cs_modis_cgan_full(scenes_fn, run_name=None,GMIGAN=True,skinT=False,fu
 #         **train_kwargs)
 #     train_cs_modis_cgan(num_epochs=2, epoch=24, batch_size=128,
 #         **train_kwargs)
-    train_cs_modis_cgan(num_epochs=7, epoch=39, batch_size=256,
+#     train_cs_modis_cgan(num_epochs=7, epoch=39, batch_size=256,
+#         **train_kwargs)
+    train_cs_modis_cgan(num_epochs=20, epoch=46, batch_size=512,
         **train_kwargs)
