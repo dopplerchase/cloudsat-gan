@@ -22,8 +22,8 @@ def plot_progess_images(gen,e,GMIGAN=True):
   else:
     ds = xr.open_dataset('/content/cloudsat-gan/csmodiscgan/data/sample_batch.nc')
  
-
-  modis_vars_b = ds['modis_vars'].values
+  #need to reverse the brightness temperatures like in the load function!
+  modis_vars_b = ds['modis_vars'].values[:,::-1,:]
   modis_mask_b = ds['modis_mask'].values
   noise = ds['noise'].values
   cs_scenes_b = ds['cs_scenes'].values
