@@ -31,7 +31,8 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
         from sklearn.preprocessing import StandardScaler
 
         #transform gmi Tbs into [n_samples,n_features] to get mean 0 std 1 from sklearn
-        X = ds.gmi_scene.data.reshape([ds.gmi_scene.shape[0]*ds.gmi_scene.shape[1],ds.gmi_scene.shape[2]])
+        #note, RJC added gaus smoothing on 25-03-2021 
+        X = ds.gmi_smooth.data.reshape([ds.gmi_scene.shape[0]*ds.gmi_scene.shape[1],ds.gmi_scene.shape[2]])
 
         #init. scaler
         scaler = StandardScaler()
@@ -101,6 +102,8 @@ def load_cloudsat_scenes(fn, n=None, right_handed=False, frac_validate=0.1,
             
         #rotate it to match Leinonen's setup
         cs_scenes = np.rot90(cs_scenes, axes=(2,1))
+        #roatating the cs data reverses the along_track index. So we have to do the same for gmi 
+        modis_vars = modis_vars[:,::-1,:] #n_sample,along_track,channel 
         modis_mask = np.ones([cs_scenes.shape[0],cs_scenes.shape[1],1],dtype=np.float32)
         
         #close the dataset to save RAM 
